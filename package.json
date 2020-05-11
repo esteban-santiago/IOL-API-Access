@@ -1,0 +1,25 @@
+{
+  "name": "iol-api",
+  "version": "0.0.9",
+  "description": "Test to access to IOL-API",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "IOL",
+    "API"
+  ],
+  "author": "esteban_santiago@hotmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "http": "0.0.1-security",
+    "https": "^1.0.0",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "mocha": "^7.1.2"
+  }
+}
