@@ -2,7 +2,6 @@
 
 require("dotenv").config();
 
-
 function replaceInUrl() {
     let url = arguments[0];
     for(var i = 0 ; i < arguments.length ; i++ ) {
