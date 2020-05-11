@@ -3,7 +3,6 @@
 const api_client = require('axios');
 require("dotenv").config();
 
-
 class AuthClient {
     headers = {
         Accept: 'application/json',
