@@ -1,7 +1,5 @@
 let assert = require('assert');
 
-//Auth test
-
 describe('Auth', function() {
   describe('#getToken()', function() {
     it('should return token to IOL', function() {
