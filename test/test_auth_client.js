@@ -6,7 +6,7 @@ log = console.log;
 AuthClient = require('../dao/auth_client');
 auth = new AuthClient();
 
-describe('Auth', function() {
+describe('AuthClient', function() {
   describe('#getToken()', () => {
     it('should return token to IOL', () => {
         return auth.getToken().then( response => {

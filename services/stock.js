@@ -12,8 +12,8 @@ class Stock {
         return stocks.getStockProperties(ticker);
     }
 
-    getSimbolo() {
-        return stocks.getStockProperties(ticker).simbolo;
+    getTicker() {
+        return stocks.getStockProperties(ticker).Ticker;
     }
 
     getMercado() {

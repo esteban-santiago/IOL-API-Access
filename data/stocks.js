@@ -1,17 +1,17 @@
 'use strict';
 
 const stocks = [ {
-    simbolo: "COME",
-    descripcion: "Sociedad Comercial Del Plata",
-    pais: "argentina",
+    Ticker: "COME",
+    Description: "Sociedad Comercial Del Plata",
+    Country: "argentina",
     mercado: "bcba",
     tipo: "ACCIONES",
     plazo: "t2",
     moneda: "peso_Argentino"
   }, {
-    simbolo: "MELI",
-    descripcion: "Mercadolibre",
-    pais: "argentina",
+    Ticker: "MELI",
+    Description: "Mercadolibre",
+    Country: "argentina",
     mercado: "bcba",
     tipo: "CEDEARS",
     plazo: "t2",
@@ -21,7 +21,7 @@ const stocks = [ {
 
 
 function getStockProperties(ticker) {
-  return stocks.find(element => element.simbolo == ticker);
+  return stocks.find(element => element.Ticker == ticker);
 }
 
 exports.getStockProperties = getStockProperties;

@@ -4,21 +4,28 @@ require("dotenv").config();
 const api_client = require('axios');
 const StringHelper = require('../helpers/string');
 let stringHelper = new StringHelper();
+let stockProperties = require('../data/stocks');
 
 class StockClient {
 
     headers = {
         Accept: 'application/json',
-        Authorization: 'Bearer ' + token
+        Authorization: 'Bearer ' + this.token
     };
-    constructor(stock, token) { }
+
+    constructor(stock, token) { 
+        this.stock = stock;
+        this.token = token;
+        console.log(stockProperties.getStockProperties('COME'));
+        console.log();
+    }
 
     getStockProperties(ticker) {
-        return stocks.find(element => element.simbolo == ticker);
+        return this.stock;
     }
 
     getBasicData() {
-        api_client.get(stringHelper.replaceInUrl(process.env.IOL_API_GET_STOCK, stock.mercado, stock.simbolo), { 'headers': this.headers }).then(resp => {
+        api_client.get(stringHelper.replaceInUrl(process.env.IOL_API_GET_STOCK, stock.mercado, stock.getTicker())), { 'headers': this.headers }).then(resp => {
             console.log(resp);
         }).catch(error => {
             console.log(error);
@@ -26,7 +33,7 @@ class StockClient {
     };
 
     getPriceData() {
-        return api_client.get(stringHelper.replaceInUrl(process.env.IOL_API_PRICE_STOCK, stock.mercado, stock.simbolo), { 'headers': this.headers }).catch(error => {
+        return api_client.get(stringHelper.replaceInUrl(process.env.IOL_API_PRICE_STOCK, stock.mercado, stock.getTicker()), { 'headers': this.headers }).catch(error => {
             console.log(error);
         });
     };
@@ -44,10 +51,12 @@ class StockClient {
     };
 
     getOptionsList() {
-        return api_client.get(stringHelper.replaceInUrl(process.env.IOL_API_GET_OPTIONS, stock.mercado, stock.simbolo),
+        return api_client.get(stringHelper.replaceInUrl(process.env.IOL_API_GET_OPTIONS, stock.mercado, stock.getTicker()),
             { 'headers': this.headers }
         ).catch(error => {
             console.log(error);
         });
     };
 }
+
+module.exports = StockClient;
