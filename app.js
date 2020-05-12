@@ -5,6 +5,7 @@ const AuthClient = require("./dao/auth_client");
 const Stock = require("./services/stock");
 
 
+
 //auth.getToken().then( response => console.log(response.data) );
 
 //const come = new Stock('COME');

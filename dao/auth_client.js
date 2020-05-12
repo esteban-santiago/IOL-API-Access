@@ -19,7 +19,11 @@ class AuthClient {
             return api_client.post(
                 process.env.IOL_API_TOKEN, 
                 this.body, 
-                this.headers).catch(error => console.log(error));
+                this.headers
+                ).catch(error => {
+                    error.data = {access_token: ''};
+                    return error;
+                });
         }
 }
-module.exports = AuthClient; 
+module.exports = AuthClient ; 

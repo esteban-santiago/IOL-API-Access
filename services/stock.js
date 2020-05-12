@@ -26,4 +26,4 @@ class Stock {
 
 }
 
-module.exports = Stock; 
+module.exports = { Stock }; 
