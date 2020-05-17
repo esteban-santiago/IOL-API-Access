@@ -4,57 +4,63 @@ require("dotenv").config();
 const api_client = require('axios');
 const StringHelper = require('../helpers/string');
 let stringHelper = new StringHelper();
-let stockProperties = require('../data/stocks');
 
 class StockClient {
-
-    headers = {
-        Accept: 'application/json',
-        Authorization: 'Bearer ' + this.token
-    };
-
-    constructor(stock, token) { 
+    
+    constructor(stock) { 
         this.stock = stock;
-        this.token = token;
-        console.log(stockProperties.getStockProperties('COME'));
-        console.log();
+        //this.token = token;
     }
 
-    getStockProperties(ticker) {
+    getHeaders(token) {
+        return {
+            Accept: 'application/json',
+            Authorization: 'Bearer ' + token
+        };
+    }
+
+    getProperties() {
         return this.stock;
     }
 
-    getBasicData() {
-        api_client.get(stringHelper.replaceInUrl(process.env.IOL_API_GET_STOCK, stock.mercado, stock.getTicker())), { 'headers': this.headers }).then(resp => {
-            console.log(resp);
-        }).catch(error => {
-            console.log(error);
+    async getBasicData(token) {
+        return await api_client.get(
+                stringHelper.replaceInUrl(process.env.IOL_API_GET_STOCK, 
+                this.stock.getMarket(), 
+                this.stock.getTicker()),
+                {'headers': this.getHeaders(token)}
+                 //{ 'headers': this.headers }
+            ).catch(error => {
+                return error;
         });
     };
 
     getPriceData() {
-        return api_client.get(stringHelper.replaceInUrl(process.env.IOL_API_PRICE_STOCK, stock.mercado, stock.getTicker()), { 'headers': this.headers }).catch(error => {
-            console.log(error);
-        });
+        return api_client.get(
+                stringHelper.replaceInUrl(process.env.IOL_API_PRICE_STOCK, 
+                this.stock.getMarket(), 
+                this.stock.getTicker()), { 'headers': this.headers }
+            ).catch(error => console.error(error));
     };
 
     buy(quantity, price, validity) {
         this.body = {
-            mercado: stock.mercado,
-            simbolo: stock.simbolo,
+            mercado: this.stock.getMarket(),
+            simbolo: this.stock.getTicker(),
             cantidad: quantity,
             precio: price,
-            plazo: stock.plazo,
+            plazo: this.stock.getTerm(),
             validez: validity //'2020-05-11'
         };
-        return api_client.post(process.env.IOL_API_BUY_STOCK, body, { 'headers': this.headers }).catch(error => console.log(error));
+        return api_client.post(process.env.IOL_API_BUY_STOCK, body, { 'headers': this.headers }
+            ).catch(error => console.log(error));
     };
 
     getOptionsList() {
         return api_client.get(stringHelper.replaceInUrl(process.env.IOL_API_GET_OPTIONS, stock.mercado, stock.getTicker()),
             { 'headers': this.headers }
         ).catch(error => {
-            console.log(error);
+            console.error(error);
         });
     };
 }

@@ -5,7 +5,7 @@ should = require('chai').should();
 const AuthClient = require('../dao/auth_client');
 let auth = new AuthClient();
 
-describe('AuthClient', function() {
+describe('Stock', function() {
   describe('#getToken()', () => {
     it('should return token to IOL', () => {
         return auth.getToken().then( response => {
