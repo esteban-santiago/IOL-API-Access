@@ -4,6 +4,7 @@
   "description": "Test to access to IOL-API",
   "main": "app.js",
   "scripts": {
+    "start": "node app",
     "test": "mocha"
   },
   "keywords": [

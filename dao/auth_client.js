@@ -3,7 +3,6 @@
 const api_client = require('axios');
 require('dotenv').config();
 let { Token } = require('../models/auth/token');
-
 let { AuthClientException } = require('../models/system/exceptions/auth_client_exception');
 
 class AuthClient {
@@ -27,6 +26,7 @@ class AuthClient {
         ).then(
             response => new Token(response.data.access_token, response.data.refresh_token) 
         ).catch(error => {
+            //console.log(error);
             throw new AuthClientException(error.response.status, 
                 error.response.statusText, 
                 error.response.data.error, 
