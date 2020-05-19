@@ -39,10 +39,10 @@ jobs:
 
     # Runs tests
     - name: Execute tests
-    env:
-      IOL_USER: ${{ secrets.IOL_USER }}
-      IOL_PASSWORD: ${{ secrets.IOL_PASSWORD }}
-    run: npm test
+      env:
+        IOL_USER: ${{ secrets.IOL_USER }}
+        IOL_PASSWORD: ${{ secrets.IOL_PASSWORD }}
+      run: npm test
     
     # Runs a set of commands using the runners shell
     - name: Run a multi-line script
