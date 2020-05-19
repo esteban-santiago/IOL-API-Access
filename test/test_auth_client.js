@@ -8,9 +8,9 @@ let auth = new AuthClient();
 describe('AuthClient', function() {
   describe('#getToken()', () => {
     it('should return token to IOL', () => {
-        return auth.getToken().then( response => {
-            //log(response.response.data);
-            response.data.access_token.should.to.have.length.above(0);
+        return auth.getToken().then( token => {
+            //console.log(token.getAccess());
+            token.getAccess().should.to.have.length.above(0);
 
          } 
         );

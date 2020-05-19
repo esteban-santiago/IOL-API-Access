@@ -1,15 +1,17 @@
 'use strict';
 
 require("dotenv").config();
-let AuthClient = require("./dao/auth_client");
-//let stock = require("./models/stocks/stock");
-let { COME, MELI } = require("./models/stocks/stock");
-let StockClient = require('./dao/stock_client');
+let AuthClient = require('./dao/auth_client');
+let { COME } = require('./models/stocks/come');
+let { MELI } = require('./models/stocks/meli');
+let { StockService } = require('./services/stock_service');
 
-let come = new COME();
-let ccome = new StockClient(come);
+//let come = new COME();
+//let ccome = new StockClient(come);
 
+let come = new StockService(new COME());
 let auth = new AuthClient();
+
 // ccome.getBasicData('token')
 //     .then(
 //         resp => {
@@ -23,9 +25,25 @@ let auth = new AuthClient();
 //console.log(stockClient);
 
 
-//auth.getToken().then( response => console.log(response.data) );
-auth.getToken().then(token => console.log(token)
-).catch(exception => console.error(exception));
-//let authExc = require('./models/system/exceptions/auth_client_exception');
+auth.getToken().then( response => console.log(response.getAccess()) );
+//auth.getToken().then(token => console.log(token)).catch(exception => console.error(exception));
 
-//throw new authExc.AuthClientException('400','45454');
+//getToken();
+
+//console.log(new COME().getBasicProperty('simbolo'));
+
+async function getToken() {
+    let token;
+    let ccome;
+    try {
+        token = await auth.getToken();
+        //console.log( await come.getBasicData(token) ) ;
+        console.log( await come.getPriceData(token));
+        //console.log( await come.getOptionsList(token));
+        //await come.buy(token, 100, 2, new Date()) ;
+    } catch (error) {
+        console.error(error);
+    } finally {
+        return token;
+    }
+}

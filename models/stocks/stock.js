@@ -1,92 +1,38 @@
 class Stock {
 
-    constructor() {}
-
-    getTicker() {}
-
-    getDescription() {}
-
-    getCountry() {}
-
-    getMarket() {}
-
-    getType() {}
-
-    getTerm() {}
-
-    getCurrency() {}
-
-}
-
-class COME extends Stock {
-  constructor() {
-    super();
+  constructor(basic) {
+    this.setBasicData(basic);
   }
 
-  getTicker() {
-    return 'COME'
-  };
+  setBasicData(basic) {
+    this.basic = basic;
+  }
 
-  getDescription() {
-    return 'Sociedad Comercial Del Plata'
-  };
+  getBasicData() {
+    return this.basic;
+  }
 
-  getCountry() {
-    return 'argentina'
-  };
+  getBasicProperty(property) {
+    return this.basic[property];
+  }
 
-  getMarket() {
-    return 'bcba'
-  };
+  getPriceData() {
+    return this.prices;
+  }
 
-  getType() {
-    return 'ACCIONES'
-  };
+  setPriceData(price) {
+    this.price = price;
+  }
 
-  getTerm() {
-    return 't2'
-  };
+  getOptions() {
+    return this.prices;
+  }
 
-  getCurrency() {
-    return 'peso_Argentino'
-  };
+  setOptions(options) {
+    this.options = options;
+  }
+
 
 }
 
-
-class MELI extends Stock {
-  constructor() {
-    super();
-   }
-
-  getTicker() {
-    return 'MELI'
-  };
-
-  getDescription() {
-    return 'Sociedad Comercial Del Plata'
-  };
-
-  getCountry() {
-    return 'argentina'
-  };
-
-  getMarket() {
-    return 'bcba'
-  };
-
-  getType() {
-    return 'CEDEARS'
-  };
-
-  getTerm() {
-    return 't2'
-  };
-
-  getCurrency() {
-    return 'peso_Argentino'
-  };
-
-}
-
-module.exports = { Stock, COME, MELI };
+module.exports = { Stock };

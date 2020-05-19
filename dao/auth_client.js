@@ -2,8 +2,8 @@
 
 const api_client = require('axios');
 require('dotenv').config();
+var constants = require('../lib/constants');
 let { Token } = require('../models/auth/token');
-
 let { AuthClientException } = require('../models/system/exceptions/auth_client_exception');
 
 class AuthClient {
@@ -14,22 +14,22 @@ class AuthClient {
 
     body = `username=${process.env.IOL_USER}&` +
         `password=${process.env.IOL_PASSWORD}&` +
-        `grant_type=${process.env.IOL_GRANT_TYPE}`;
+        `grant_type=` + constants.IOL_GRANT_TYPE; //${process.env.IOL_GRANT_TYPE}
 
     constructor() {
     }
 
     async getToken() {
         return api_client.post(
-            process.env.IOL_API_TOKEN,
+            constants.IOL_API_TOKEN,
             this.body,
             this.headers
         ).then(
-            response => new Token(response.data.access_token, response.data.refresh_token) 
+            response => new Token(response.data.access_token, response.data.refresh_token)
         ).catch(error => {
-            throw new AuthClientException(error.response.status, 
-                error.response.statusText, 
-                error.response.data.error, 
+            throw new AuthClientException(error.response.status,
+                error.response.statusText,
+                error.response.data.error,
                 error.response.data.error_description);
         });
     }
