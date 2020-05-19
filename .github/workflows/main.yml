@@ -29,7 +29,8 @@ jobs:
       # Runs a single command using the runners shell
     - name: Run an env script
       env:
-        SUPER_SECRET: ${{ secrets.IOL_USER }}
+        IOL_USER: ${{ secrets.IOL_USER }}
+        IOL_PASSWORD: ${{ secrets.IOL_PASSWORD }}
       run: env
 
     # Runs a single command using the runners shell
