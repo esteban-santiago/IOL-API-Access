@@ -1,6 +1,7 @@
 'use strict';
 
 require("dotenv").config();
+var constants = require('../lib/constants');
 
 let { Stock } = require('../models/stocks/stock');
 let { Operation } = require('../models/operations/operation');
@@ -14,19 +15,12 @@ class StockService {
         this.stock = stock;
     }
 
-    getHeaders(token) {
-        return {
-            Accept: 'application/json',
-            Authorization: 'Bearer ' + token
-        };
-    }
-
     getProperties() {
         return this.stock;
     }
 
     getBasicData(token) {
-        return StockClient.get(token, process.env.IOL_API_GET_STOCK, this.stock)
+        return StockClient.get(token, constants.IOL_API_GET_STOCK, this.stock)
             .then((stock) =>
                 new Stock(stock.data)
             )
@@ -40,8 +34,8 @@ class StockService {
             });
     }
 
-    getPriceData(token) { //process.env.IOL_API_PRICE_STOCK
-        return StockClient.get(token, process.env.IOL_API_PRICE_STOCK, this.stock)
+    getPriceData(token) { //constants.IOL_API_PRICE_STOCK
+        return StockClient.get(token, constants.IOL_API_PRICE_STOCK, this.stock)
             .then(
                 (stock) => {
                     this.stock.setPriceData(stock.data);
@@ -66,7 +60,7 @@ class StockService {
             plazo: this.stock.getBasicProperty('plazo'),
             validez: validity.toISOString() //'2020-05-11' //dateObj.toISOString()
         };
-        return StockClient.post(token, process.env.IOL_API_BUY_STOCK, body, this.stock)
+        return StockClient.post(token, constants.IOL_API_BUY_STOCK, body, this.stock)
             .then(
                 (resp) => {
                     let trx;
@@ -92,7 +86,7 @@ class StockService {
     };
 
     getOptionsList(token) {
-        return StockClient.get(token, process.env.IOL_API_GET_OPTIONS, this.stock)
+        return StockClient.get(token, constants.IOL_API_GET_OPTIONS, this.stock)
             .then(
                 (stock) => {
                     this.stock.setOptions(stock.data);

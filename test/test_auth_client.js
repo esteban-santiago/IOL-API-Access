@@ -9,7 +9,7 @@ describe('AuthClient', function() {
   describe('#getToken()', () => {
     it('should return token to IOL', () => {
         return auth.getToken().then( token => {
-            //log(response.response.data);
+            //console.log(token.getAccess());
             token.getAccess().should.to.have.length.above(0);
 
          } 

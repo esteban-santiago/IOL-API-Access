@@ -25,11 +25,10 @@ let auth = new AuthClient();
 //console.log(stockClient);
 
 
-//auth.getToken().then( response => console.log(response.data) );
-//auth.getToken().then(token => console.log(token)
-//).catch(exception => console.error(exception));
+auth.getToken().then( response => console.log(response.getAccess()) );
+//auth.getToken().then(token => console.log(token)).catch(exception => console.error(exception));
 
-getToken();
+//getToken();
 
 //console.log(new COME().getBasicProperty('simbolo'));
 
@@ -39,9 +38,9 @@ async function getToken() {
     try {
         token = await auth.getToken();
         //console.log( await come.getBasicData(token) ) ;
-        //console.log( await come.getPriceData(token));
+        console.log( await come.getPriceData(token));
         //console.log( await come.getOptionsList(token));
-        await come.buy(token, 100, 2, new Date()) ;
+        //await come.buy(token, 100, 2, new Date()) ;
     } catch (error) {
         console.error(error);
     } finally {
