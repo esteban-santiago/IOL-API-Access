@@ -1,7 +1,7 @@
 'use strict';
 
 require("dotenv").config();
-let AuthClient = require('./dao/auth_client');
+let auth = require('./dao/auth_client');
 let { COME } = require('./models/stocks/come');
 let { MELI } = require('./models/stocks/meli');
 let { StockService } = require('./services/stock_service');
@@ -10,7 +10,7 @@ let { StockService } = require('./services/stock_service');
 //let ccome = new StockClient(come);
 
 let come = new StockService(new COME());
-let auth = new AuthClient();
+//let auth = new AuthClient();
 
 // ccome.getBasicData('token')
 //     .then(
