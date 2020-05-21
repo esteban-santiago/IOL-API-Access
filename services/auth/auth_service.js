@@ -2,14 +2,11 @@
 
 const api_client = require('axios');
 require('dotenv').config();
-var constants = require('../lib/constants');
-let { Token } = require('../models/auth/token');
-let { AuthClientException } = require('../models/system/exceptions/auth_client_exception');
+var constants = require('../../lib/constants');
+let { Token } = require('../../models/auth/token');
+let { AuthServiceException } = require('./exceptions/auth_service_exception');
 
-class AuthClient {
-    
-    constructor() {
-    }
+class AuthService {
 
     static _getHeaders() {
         return {
@@ -25,7 +22,6 @@ class AuthClient {
 
     }
 
-
     static getToken() {
         return api_client.post(
             constants.IOL_API_TOKEN,
@@ -34,13 +30,12 @@ class AuthClient {
         ).then(
             response => new Token(response.data.access_token, response.data.refresh_token)
         ).catch(error => {
-            throw new AuthClientException(error.response.status,
+            throw new AuthServiceException(error.response.status,
                 error.response.statusText,
                 error.response.data.error,
                 error.response.data.error_description);
         });
     }
 
-
 }
-module.exports = AuthClient; 
+module.exports = AuthService; 

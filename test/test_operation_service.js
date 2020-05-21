@@ -1,6 +1,6 @@
-// assert = require('assert');
-// expect = require('chai').expect;
-// should = require('chai').should();
+const assert = require('chai').assert;
+const expect = require('chai').expect;
+const should = require('chai').should();
 
 // const AuthClient = require('../dao/auth_client');
 // let auth = new AuthClient();

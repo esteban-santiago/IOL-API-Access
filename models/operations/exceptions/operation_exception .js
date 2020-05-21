@@ -1,4 +1,4 @@
-let { Exception } = require('./exception');
+let { Exception } = require('../../system/exceptions/exception');
 
 class OperationException {
     constructor(name, message) {
