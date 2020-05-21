@@ -25,7 +25,7 @@ describe('#Stock COME', () => {
     describe('#3 - getOptionsList()', () => {
         it('should return Price data for Stock', () => {
             return auth.getToken().then((token) =>
-                StockService.getOptionsList(token, come).then((options) => assert.isAbove(options.ultimoPrecio, 0))
+                StockService.getOptionsList(token, come).then((options) => assert.isAbove(options[0].ultimoPrecio, 0))
             );
         });
     });    
