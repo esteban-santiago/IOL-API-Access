@@ -17,16 +17,18 @@ describe('#Stock COME', () => {
     });
     describe('#2 - getPriceData()', () => {
         it('should return Price data for Stock', () => {
-            return auth.getToken().then((token) =>
-                StockService.getPriceData(token, come).then((price) => assert.isAbove(price.ultimoPrecio, 0))
+            return auth.getToken().then((token) => {
+                return StockService.getPriceData(token, come).then((price) => assert.isAbove(price.ultimoPrecio, 0));
+            }
             );
         });
     });
     describe('#3 - getOptionsList()', () => {
         it('should return Price data for Stock', () => {
-            return auth.getToken().then((token) =>
-                StockService.getOptionsList(token, come).then((options) => assert.isAbove(options[0].ultimoPrecio, 0))
-            );
+            return auth.getToken().then((token) => {
+                return StockService.getOptionsList(token, come).then((options) => assert.equal(options[0].tipo, 'OPCIONES'));
+            }
+            )
         });
-    });    
+    });
 });

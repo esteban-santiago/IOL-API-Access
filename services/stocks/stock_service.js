@@ -69,7 +69,7 @@ class StockService {
             });
     };
     static getCallsList(token, stock) {
-        return 
+        //return 
     }
 
     static getPutsCallList(token, stock) {
