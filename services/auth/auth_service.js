@@ -1,29 +1,37 @@
 'use strict';
 
-const api_client = require('axios');
-require('dotenv').config();
-var constants = require('../../lib/constants');
-let { Token } = require('../../models/auth/token');
-let { AuthServiceException } = require('./exceptions/auth_service_exception');
+import axios from 'axios';
+import dotenv from 'dotenv'; dotenv.config();
+import constants from '../../lib/constants.js';
+import Token from '../../models/auth/token.js';
+import AuthServiceException from './exceptions/auth_service_exception.js';
 
 class AuthService {
 
-    static _getHeaders() {
+    constructor() {
+        if(AuthService.instance instanceof AuthService)
+            return AuthService.instance;
+
+        Object.freeze(this);
+        AuthService.instance = this; //c'est une variable globale ou semi globale
+    }
+
+    _getHeaders() {
         return {
             Accept: 'application/json',
             Authorization: 'auth'
         };
     }
 
-    static _getBody() {
+    _getBody() {
         return `username=${process.env.IOL_USER}&` +
             `password=${process.env.IOL_PASSWORD}&` +
-            `grant_type=` + constants.IOL_GRANT_TYPE; //${process.env.IOL_GRANT_TYPE}
+            `grant_type=${constants.IOL_GRANT_TYPE}`; //${process.env.IOL_GRANT_TYPE}
 
     }
 
-    static getToken() {
-        return api_client.post(
+    getToken() {
+        return axios.post(
             constants.IOL_API_TOKEN,
             this._getBody(),
             this._getHeaders()
@@ -38,4 +46,7 @@ class AuthService {
     }
 
 }
-module.exports = AuthService; 
+
+export default AuthService;
+
+//module.exports = {AuthService}; 

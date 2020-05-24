@@ -5,8 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "test": "mocha"
+    "test": "mocha --timeout 10000"
   },
+  "type": "module",
   "keywords": [
     "IOL",
     "API"

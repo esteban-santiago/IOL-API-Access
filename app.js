@@ -1,11 +1,10 @@
 'use strict';
 
-require("dotenv").config();
-let auth = require('./services/auth/auth_service');
-let { COME } = require('./models/stocks/come');
-let { MELI } = require('./models/stocks/meli');
-let { StockService } = require('./services/stocks/stock_service');
-let { OperationService } = require('./services/system/operation_service');
+import AuthService from './services/auth/auth_service.js';
+import COME from './models/stocks/come.js';
+import MELI from './models/stocks/meli.js';
+import StockService from './services/stocks/stock_service.js';
+
 
 let come = new COME();
 
@@ -34,21 +33,32 @@ let come = new COME();
 
 
 
-//getToken();
+
+getToken();
 
 
 async function getToken() {
     let token;
     let ccome;
+    //let stockService = new StockService();
+    let stockDataService = new StockService().getDataService();;
+
     try {
-        token = await auth.getToken();
-        console.log(token);
-        //console.log( await StockService.getBasicData(token, come) );
-        //console.log(await StockService.getPriceData(token, come));
-        //console.log( await StockService.getOptionsList(token, come));
-        //console.log(await OperationService.buy(token, come, 100, 2, new Date())) ;
-        //console.log(await OperationService.getBasicData(token, 23205311));
-        //console.log(await OperationService.cancel(token, 23205311));
+        token = await new AuthService().getToken();
+        //console.log(token);
+        //console.log( await StockDataService.getBasicData(token, come) );
+        //console.log(await StockDataService.getPriceData(token, come));
+        //console.log( await StockDataService.getOptionList(token, come));
+        //console.log(await StockOperationService.buy(token, come, 100, 2, new Date())) ;
+        //console.log(await StockOperationService.getBasicData(token, 23205311));
+        //console.log(await StockOperationService.cancel(token, 23205311));
+        //let options = await StockDataService.getOptionList(token, come);
+        //options.filter(
+        //    (e) => e.simbolo.substring(3,4) === 'V' ? e : null
+        //);
+
+        console.log ( await stockDataService.getBasicData(token, come) );
+
     } catch (error) {
         console.error(error);
     } finally {

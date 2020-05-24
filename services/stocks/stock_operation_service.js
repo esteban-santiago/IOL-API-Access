@@ -1,22 +1,30 @@
 'use strict';
 
-require("dotenv").config();
-var constants = require('../../lib/constants');
-const api_client = require('axios');
-let { Operation } = require('../../models/operations/operation');
-let { OperationServiceException } = require('./exceptions/operation_service_exception');
-const StringHelper = require('../../helpers/string');
+import axios from 'axios';
+//import dotenv from 'dotenv'; dotenv.config();
+import constants from '../../lib/constants.js';
+import OperationServiceException from './exceptions/operation_service_exception.js';
+import StringHelper from '../../helpers/string.js';
+import Operation from '../../models/operations/operation.js';
 
-class OperationService {
-    static _getHeaders(token) {
+export default class StockOperationService {
+    constructor() {
+        if(StockOperationService.instance instanceof StockOperationService)
+            return StockOperationService.instance;
+
+        Object.freeze(this);
+        StockOperationService.instance = this; //c'est une variable globale ou semi globale
+    }
+
+     _getHeaders(token) {
         return {
             Accept: 'application/json',
             Authorization: 'Bearer ' + token
         };
     }
 
-    static getBasicData(token, operation) {
-        return api_client.get(
+    getBasicData(token, operation) {
+        return axios.get(
             StringHelper.replaceInUrl(constants.IOL_API_OPERATION,
                 operation),
             { 'headers': this._getHeaders(token.getAccess()) })
@@ -30,7 +38,7 @@ class OperationService {
             });
     }
 
-    static buy(token, stock, quantity, price, validity) {
+    buy(token, stock, quantity, price, validity) {
         const body = {
             mercado: stock.getBasicProperty('mercado'),
             simbolo: stock.getBasicProperty('simbolo'),
@@ -39,7 +47,7 @@ class OperationService {
             plazo: stock.getBasicProperty('plazo'),
             validez: validity.toISOString() //'2020-05-11' //dateObj.toISOString()
         };
-        return api_client.post(constants.IOL_API_OPERATION_BUY,
+        return axios.post(constants.IOL_API_OPERATION_BUY,
             body,
             { 'headers': this._getHeaders(token.getAccess()) })
             .then(
@@ -54,8 +62,8 @@ class OperationService {
             });
     };
 
-    static cancel(token, operation) { ///api/v2/operaciones/
-        return api_client.delete(
+    cancel(token, operation) { ///api/v2/operaciones/
+        return axios.delete(
             StringHelper.replaceInUrl(constants.IOL_API_OPERATION,
                 operation),
             { 'headers': this._getHeaders(token.getAccess()) })
@@ -70,5 +78,3 @@ class OperationService {
 
     }
 }
-
-module.exports = { OperationService };

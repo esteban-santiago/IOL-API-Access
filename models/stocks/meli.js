@@ -1,7 +1,7 @@
-let { Stock } = require('./stock');
+import Stock from './stock.js';
 
 
-class MELI extends Stock {
+export default class MELI extends Stock {
   constructor() {
     super();
     super.basic = {
@@ -16,5 +16,3 @@ class MELI extends Stock {
   }
 
 }
-
-module.exports = { MELI };

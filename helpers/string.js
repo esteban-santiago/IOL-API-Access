@@ -15,4 +15,4 @@ class StringHelper {
 
 }
 
-module.exports = StringHelper;
+export default StringHelper;

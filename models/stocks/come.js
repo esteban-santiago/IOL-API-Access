@@ -1,6 +1,6 @@
-let { Stock } = require('./stock');
+import Stock from './stock.js';
 
-class COME extends Stock {
+export default class COME extends Stock {
   constructor() {
     super();
     super.basic = {
@@ -16,4 +16,3 @@ class COME extends Stock {
 
 }
 
-module.exports = { COME };

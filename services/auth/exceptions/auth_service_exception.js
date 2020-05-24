@@ -1,4 +1,4 @@
-let { HTTPException } = require('../../../models/system/exceptions/http_exception');
+import HTTPException from '../../../models/system/exceptions/http_exception.js';
 
 class AuthServiceException extends HTTPException {
     constructor(code, description, statusCode, statusText) {
@@ -6,4 +6,4 @@ class AuthServiceException extends HTTPException {
     }
 }
 
-module.exports = { AuthServiceException };
+export default { AuthServiceException };

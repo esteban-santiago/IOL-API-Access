@@ -1,12 +1,17 @@
-const assert = require('chai').assert;
-const expect = require('chai').expect;
-const should = require('chai').should();let auth = require('../services/auth/auth_service');
+'use strict';
+
+import chai from 'chai';
+
+const { expect } = chai;
+const { assert } = chai;
+
+
+import AuthService from '../services/auth/auth_service.js';
 
 describe('#AuthClient', function() {
   describe('#1 - getToken()', () => {
     it('should return token to IOL', () => {
-        return auth.getToken().then( token => {
-            //token.getAccess().should.to.have.length.above(0);
+        return new AuthService().getToken().then( token => {
             assert.isAbove(token.getAccess().length, 1);
          } 
         );
