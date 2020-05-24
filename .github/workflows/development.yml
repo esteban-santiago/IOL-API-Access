@@ -33,6 +33,8 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Setup project
+      run: npm -v
+      run: node -v
       run: npm install
 
     # Runs tests
