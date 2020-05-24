@@ -33,9 +33,10 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Setup project
-      run: npm -v
-      run: node -v
-      run: npm install
+      run: |
+        npm -v
+        node -v
+        npm install
 
     # Runs tests
     - name: Execute tests
