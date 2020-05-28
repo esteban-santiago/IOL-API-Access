@@ -5,16 +5,16 @@ import constants from '../../lib/constants.js';
 import AccountServiceException from './exceptions/account_service_exception.js';
 import StringHelper from '../../helpers/string.js';
 
-export default class StockOperationService {
+class AccountService {
     constructor() {
-        if(StockOperationService.instance instanceof StockOperationService)
-            return StockOperationService.instance;
+        if (AccountService.instance instanceof AccountService)
+            return AccountService.instance;
 
         Object.freeze(this);
-        StockOperationService.instance = this; //c'est une variable globale ou semi globale
+        AccountService.instance = this; //c'est une variable globale ou semi globale
     }
 
-     _getHeaders(token) {
+    _getHeaders(token) {
         return {
             Accept: 'application/json',
             Authorization: 'Bearer ' + token
@@ -23,24 +23,33 @@ export default class StockOperationService {
 
     getAccountStatus(token) {
         return axios.get(
-            StringHelper.replaceInUrl(constants.IOL_API_OPERATION,
-                operation),
+            constants.IOL_API_ACCOUNT_STATUS,
             { 'headers': this._getHeaders(token.getAccess()) })
-            .then((operation) => operation.data)
+            .then((status) => status.data)
             .catch(error => {
-                throw new OperationServiceException(
-                    'OperationService.getBasicData() error.',
+                throw new AccountServiceException(
+                    'AccountService.getAccountStatus() error.',
                     error.response.statusText,
                     error.response.status,
                     error.response.config.url);
             });
     }
 
-    buy(token, stock, quantity, price, validity) {
-
+    getAccountPortfolio(token, country) {
+        return axios.get(
+            StringHelper.replaceInUrl(constants.IOL_API_ACCOUNT_PORTFOLIO,
+                country),
+            { 'headers': this._getHeaders(token.getAccess()) })
+            .then((portafolio) => portafolio.data)
+            .catch(error => {
+                throw new AccountServiceException(
+                    'AccountService.getAccountPortfolio() error.',
+                    error.response.statusText,
+                    error.response.status,
+                    error.response.config.url);
+            });
     }
-
 
 }
 
-export default Account;
+export default AccountService;

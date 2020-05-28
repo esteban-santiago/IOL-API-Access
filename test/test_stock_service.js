@@ -5,9 +5,6 @@ import chai from 'chai';
 const { expect } = chai;
 const { assert } = chai;
 
-//import { should, expect } from 'chai';
-//const should = require('chai').should();
-
 import AuthService from '../services/auth/auth_service.js';
 import StockService from '../services/stocks/stock_service.js';
 import COME from '../models/stocks/come.js';

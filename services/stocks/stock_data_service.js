@@ -9,7 +9,7 @@ import StringHelper from '../../helpers/string.js';
 
 export default class StockDataService {
     constructor() {
-        if(StockDataService.instance instanceof StockDataService)
+        if (StockDataService.instance instanceof StockDataService)
             return StockDataService.instance;
 
         Object.freeze(this);
@@ -74,6 +74,7 @@ export default class StockDataService {
                     error.response.config.url);
             });
     };
+
     getCallList(token, stock) {
         return this.getOptionList(token, stock).then((calls) =>
             calls.filter((e) => e.simbolo.substring(3, 4) === constants.OPTION_CALL_FLAG ? e : null)
@@ -84,5 +85,51 @@ export default class StockDataService {
         return this.getOptionList(token, stock).then((puts) =>
             puts.filter((e) => e.simbolo.substring(3, 4) === constants.OPTION_PUT_FLAG ? e : null)
         );
+    }
+
+    getLastYearHistoricalData(token,stock) {
+        let dateTo = new Date();
+        let dateFrom = new Date();
+        dateFrom.setFullYear(dateTo.getFullYear()-1);
+        return this.getHistoricalData(token, stock, dateFrom.toISOString().split('T')[0], dateTo.toISOString().split('T')[0]);
+    }
+
+    getLastMonthHistoricalData(token,stock) {
+        let dateTo = new Date();
+        let dateFrom = new Date();
+        dateFrom.setMonth(dateTo.getMonth()-1);
+        return this.getHistoricalData(token, stock, dateFrom.toISOString().split('T')[0], dateTo.toISOString().split('T')[0]);
+    }
+
+    getXLastsMonthsHistoricalData(token,stock, months) {
+        let dateTo = new Date();
+        let dateFrom = new Date();
+        dateFrom.setMonth(dateTo.getMonth()-months);
+        return this.getHistoricalData(token, stock, dateFrom.toISOString().split('T')[0], dateTo.toISOString().split('T')[0]);
+    }
+
+    getHistoricalData(token, stock, dateFrom, dateTo, ajusted = 'ajustada') {
+        return axios.get(
+            StringHelper.replaceInUrl(constants.IOL_API_STOCK_HISTORY_GET,
+                stock.getBasicProperty('mercado'),
+                stock.getBasicProperty('simbolo'),
+                dateFrom, //'2019-05-01',//fechaDesde,
+                dateTo,//'2020-05-30',//fechaHasta,
+                ajusted),//ajustada),
+            { 'headers': this._getHeaders(token.getAccess()) })
+            .then(
+                (history) => history.data
+            )
+            .catch(error => {
+                console.log(error);
+                /*
+                throw new StockServiceException(
+                    'StockDataService.getHistoricalData() error.',
+                    error.response.statusText,
+                    error.response.status,
+                    error.response.config.url);
+                    */
+            });
+
     }
 }

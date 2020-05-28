@@ -4,6 +4,7 @@ import AuthService from './services/auth/auth_service.js';
 import COME from './models/stocks/come.js';
 import MELI from './models/stocks/meli.js';
 import StockService from './services/stocks/stock_service.js';
+import TechnicalIndicators from './services/analysis/technicals/technical_indicators.js';
 
 
 let come = new COME();
@@ -40,9 +41,8 @@ getToken();
 async function getToken() {
     let token;
     let ccome;
-    //let stockService = new StockService();
     let stockDataService = new StockService().getDataService();;
-
+    let ti = new TechnicalIndicators();
     try {
         token = await new AuthService().getToken();
         //console.log(token);
@@ -57,7 +57,41 @@ async function getToken() {
         //    (e) => e.simbolo.substring(3,4) === 'V' ? e : null
         //);
 
-        console.log ( await stockDataService.getBasicData(token, come) );
+        
+        let history =
+            await stockDataService.getXLastsMonthsHistoricalData(token, come, 12).then(
+                (history => history.reverse().map(
+                    (stock => new Array(stock.fechaHora.split('T')[0], stock.ultimoPrecio))
+                )));
+        
+        let sma20 =
+            ti.getSMA50(await stockDataService.getXLastsMonthsHistoricalData(token, come, 12).then(
+                (history => history.reverse().map(
+                    (stock => stock.ultimoPrecio)
+                ))
+            ));
+        for (let i = 0; i < history.length; i++)
+            history[i].push(sma20[i]);
+
+        history.map(
+            (element, index, elements) => {
+                if (index < elements.length - 1)
+                    elements[index].push(
+                        Math.sqrt( Math.pow(elements[index][2],2) )
+                        > 
+                        Math.sqrt( Math.pow(elements[index + 1][2],2) )
+                    )
+            }
+        );
+
+        console.log(history);
+
+        for (let index = 0 ; index < history.length-1 ; index++) {
+            if(history[index][3] != history[index+1][3])
+                console.log('Changement de tendence: ' + history[index][0])
+        }        
+
+
 
     } catch (error) {
         console.error(error);
