@@ -6,7 +6,7 @@ import MELI from './models/stocks/meli.js';
 import StockService from './services/stocks/stock_service.js';
 import SMA from './services/analysis/technicals/sma.js';
 import EMA from './services/analysis/technicals/ema.js';
-import {SupervisedLearning as sl} from './helpers/machine_learning.js';
+import {SupervisedLearning as sl} from './services/machine_learning/machine_learning.js';
 
 
 let come = new COME();
