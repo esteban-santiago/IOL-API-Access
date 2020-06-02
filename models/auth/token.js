@@ -11,4 +11,9 @@ export default class Token {
     getRefresh() {
         return this.refresh;
     }
+
+    validateToken() {
+        //not yet implemented
+        return true;
+    }
 }
