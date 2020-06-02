@@ -10,8 +10,8 @@ class SupervisedLearning extends MachineLearning {
         let osm = this.getLRModelByOrdinaryMeanSquares(points); //[m, b]
         let gd = this.getLRModelByGradientDescent(points); //[m, b]
 
-        console.log(`Error for osm: ${this.computeErrorForGivenPoints(points, osm[0], osm[1])}`);
-        console.log(`Error for gd: ${this.computeErrorForGivenPoints(points, gd[0], gd[1])}`);
+        //console.log(`Error for osm: ${this.computeErrorForGivenPoints(points, osm[0], osm[1])}`);
+        //console.log(`Error for gd: ${this.computeErrorForGivenPoints(points, gd[0], gd[1])}`);
 
         return this.computeErrorForGivenPoints(points, osm[0], osm[1]) <
             this.computeErrorForGivenPoints(points, gd[0], gd[1]) ?
@@ -47,13 +47,13 @@ class SupervisedLearning extends MachineLearning {
         //return function model(x) {  return m*x+b };
 
         //return (x) => m * x + b;
-        console.log(`OSM=${[m, b]}`);
+        //console.log(`OSM=${[m, b]}`);
         return [m, b];
     }
 
 
     static getLRModelByGradientDescent(points) {
-        let learning_rate = 0.000000001;
+        let learning_rate = 0.001;
         //y = mx + b (slope formula)
         let m = 0;
         let b = 0;
@@ -71,7 +71,7 @@ class SupervisedLearning extends MachineLearning {
             b -= (learning_rate * gradient_b);
         }
         //return (x) => m * x + b;
-        console.log(`GD=${[m, b]}`);
+        //console.log(`GD=${[m, b]}`);
         return [m, b];
     }
 
