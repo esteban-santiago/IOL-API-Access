@@ -16,23 +16,6 @@ class Stock {
     return this.basic[property];
   }
 
-  getPriceData() {
-    return this.prices;
-  }
-
-  setPriceData(price) {
-    this.price = price;
-  }
-
-  getOptions() {
-    return this.prices;
-  }
-
-  setOptions(options) {
-    this.options = options;
-  }
-
-
 }
 
-module.exports = { Stock };
+export default Stock;

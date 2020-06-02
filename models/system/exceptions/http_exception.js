@@ -1,4 +1,4 @@
-let { Exception } = require('./exception');
+import Exception from './exception.js';
 
 class HTTPException extends Exception {
     constructor(name, message, statusCode, statusText) {
@@ -8,4 +8,4 @@ class HTTPException extends Exception {
     }
 }
 
-module.exports = { HTTPException };
+export default HTTPException;

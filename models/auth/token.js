@@ -1,4 +1,4 @@
-class Token {
+export default class Token {
     constructor(access, refresh) {
         this.access = access;
         this.refresh = refresh;
@@ -11,5 +11,9 @@ class Token {
     getRefresh() {
         return this.refresh;
     }
+
+    validateToken() {
+        //not yet implemented
+        return true;
+    }
 }
-module.exports = { Token };

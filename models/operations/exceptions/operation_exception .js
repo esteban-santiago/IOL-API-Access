@@ -1,9 +1,9 @@
-let { Exception } = require('./exception');
+import Exception from '../../system/exceptions/exception.js';
 
-class OperationException {
+export default class OperationException extends Exception {
     constructor(name, message) {
         this.name = name;
-        this.message = message
+        this.message = message;
     }
 
     getName() {
@@ -14,5 +14,3 @@ class OperationException {
         return this.Message;
     }
 }
-
-module.exports = { OperationException };

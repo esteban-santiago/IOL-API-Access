@@ -1,6 +1,9 @@
-// assert = require('assert');
-// expect = require('chai').expect;
-// should = require('chai').should();
+'use strict';
+
+import chai from 'chai';
+
+const { expect } = chai;
+const { assert } = chai;
 
 // const AuthClient = require('../dao/auth_client');
 // let auth = new AuthClient();
