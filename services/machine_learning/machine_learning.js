@@ -1,12 +1,23 @@
 'use strict';
 
-class MachineLearning {
-    static getAccurateLRModel(points){}
+class MachineLearningService {
+    constructor() {
+    }
+    
+    getAccurateLRModel(points){}
 }
 
-class SupervisedLearning extends MachineLearning {
+class SupervisedLearning extends MachineLearningService {
+    constructor() {
+        super();
+        if (SupervisedLearning.instance instanceof SupervisedLearning)
+            return SupervisedLearning.instance;
 
-    static getAccurateLRModel(points) {
+        Object.freeze(this);
+        SupervisedLearning.instance = this; //c'est une variable globale ou semi globale
+    }
+
+    getAccurateLRModel(points) {
         let osm = this.getLRModelByOrdinaryMeanSquares(points); //[m, b]
         let gd = this.getLRModelByGradientDescent(points); //[m, b]
 
@@ -18,14 +29,10 @@ class SupervisedLearning extends MachineLearning {
             (x) => osm[0] * x + osm[1] : (x) => gd[0] * x + gd[1];
     }
 
-    static getLRModelByOrdinaryMeanSquares(points) {
+    getLRModelByOrdinaryMeanSquares(points) {
         let xS = 0, yS = 0, xA = 0, yA = 0;
-        //let num = 0;
-        //let den = 0;
         let m = 0;
         let b = 0;
-        let y = 0;
-        //let x = 4;
 
         xS = points.map((element) => element[0]).reduce((a, b) => a + b);
         yS = points.map((element) => element[1]).reduce((a, b) => a + b);
@@ -52,8 +59,8 @@ class SupervisedLearning extends MachineLearning {
     }
 
 
-    static getLRModelByGradientDescent(points) {
-        let learning_rate = 0.001;
+    getLRModelByGradientDescent(points) {
+        let learning_rate = 0.01;
         //y = mx + b (slope formula)
         let m = 0;
         let b = 0;
@@ -75,7 +82,7 @@ class SupervisedLearning extends MachineLearning {
         return [m, b];
     }
 
-    static computeErrorForGivenPoints(points, m, b) {
+    computeErrorForGivenPoints(points, m, b) {
         let totalError = 0;
         for (let i = 0; i < points.length; i++) {
             let x = points[i][0];
@@ -88,7 +95,7 @@ class SupervisedLearning extends MachineLearning {
 }
 
 export {
-    MachineLearning, 
+    MachineLearningService, 
     SupervisedLearning
 };
 

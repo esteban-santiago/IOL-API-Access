@@ -6,7 +6,7 @@ import MELI from './models/stocks/meli.js';
 import StockService from './services/stocks/stock_service.js';
 import SMA from './services/analysis/technicals/sma.js';
 import EMA from './services/analysis/technicals/ema.js';
-import {SupervisedLearning as sl} from './services/machine_learning/machine_learning.js';
+import {SupervisedLearning} from './services/machine_learning/machine_learning.js';
 
 
 let come = new COME();
@@ -76,6 +76,7 @@ async function getToken() {
 
         //console.log(Algebra.computeErrorForGivenPoints(points, gd[0], gd[1]));
         //console.log(Algebra.computeErrorForGivenPoints(points, oms[0], oms[1]));
+        const sl = new SupervisedLearning();
         console.log(sl.getAccurateLRModel(points)(0));
 
         //  let history =
