@@ -53,9 +53,9 @@ class SupervisedLearning extends MachineLearningService {
         //console.log(`X=${x} ==> Y=${m*x+b}`);    
         //return function model(x) {  return m*x+b };
 
-        //return (x) => m * x + b;
+        //return [m, b];
+        return (x) => m * x + b;
         //console.log(`OSM=${[m, b]}`);
-        return [m, b];
     }
 
 
@@ -77,9 +77,9 @@ class SupervisedLearning extends MachineLearningService {
             m -= (learning_rate * gradient_m);
             b -= (learning_rate * gradient_b);
         }
-        //return (x) => m * x + b;
+        //return [m, b];
+        return (x) => m * x + b;
         //console.log(`GD=${[m, b]}`);
-        return [m, b];
     }
 
     computeErrorForGivenPoints(points, m, b) {

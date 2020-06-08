@@ -70,6 +70,7 @@ async function getToken() {
         [4200, 138600], [5780, 202300]
         ];
 
+        const _points = [[2, 5], [6, 7], [1, 3], [7, 8], [8, 8], [9, 9]];
         //Algebra.computeErrorForGivenPoints()
         //console.log(gd);
         //console.log(oms);
