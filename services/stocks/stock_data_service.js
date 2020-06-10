@@ -4,6 +4,7 @@ import axios from 'axios';
 //import dotenv from 'dotenv'; dotenv.config();
 import constants from '../../lib/constants.js';
 
+import Stock from '../../models/stocks/stock.js';
 import StockServiceException from './exceptions/stock_service_exception.js';
 import StringHelper from '../../helpers/string.js';
 
@@ -21,6 +22,13 @@ export default class StockDataService {
             Accept: 'application/json',
             Authorization: 'Bearer ' + token
         };
+    }
+
+    getData(token, market, ticker) {
+        let stock = new Stock();
+        stock.setBasicProperty('mercado',market);
+        stock.setBasicProperty('simbolo',ticker);
+        return this.getBasicData(token, stock);
     }
 
     getBasicData(token, stock) {
@@ -42,6 +50,24 @@ export default class StockDataService {
     getPriceData(token, stock) {
         return axios.get(
             StringHelper.replaceInUrl(constants.IOL_API_STOCK_PRICE_GET,
+                stock.getBasicProperty('mercado'),
+                stock.getBasicProperty('simbolo')),
+            { 'headers': this._getHeaders(token.getAccess()) })
+            .then(
+                (stock) => stock.data
+            )
+            .catch(error => {
+                throw new StockServiceException(
+                    'StockService.getPriceData() error.',
+                    error.response.statusText,
+                    error.response.status,
+                    error.response.config.url);
+            });
+    };
+
+    getPriceBox(token, stock) {
+        return axios.get(
+            StringHelper.replaceInUrl(constants.IOL_API_PRICE_BOX,
                 stock.getBasicProperty('mercado'),
                 stock.getBasicProperty('simbolo')),
             { 'headers': this._getHeaders(token.getAccess()) })
