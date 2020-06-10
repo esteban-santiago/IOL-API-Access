@@ -26,8 +26,8 @@ export default class StockDataService {
 
     getData(token, market, ticker) {
         let stock = new Stock();
-        stock.setBasicProperty('mercado',market);
-        stock.setBasicProperty('simbolo',ticker);
+        stock.setBasicProperty('mercado', market);
+        stock.setBasicProperty('simbolo', ticker);
         return this.getBasicData(token, stock);
     }
 
@@ -103,34 +103,35 @@ export default class StockDataService {
 
     getCallList(token, stock) {
         return this.getOptionList(token, stock).then((calls) =>
-            calls.filter((e) => e.simbolo.substring(3, 4) === constants.OPTION_CALL_FLAG ? e : null)
+            calls.filter((e) => RegExp('['+constants.OPTION_CALL_FLAG+']\\d*[-.]\\d*').test(e.simbolo) ? e : null)
         );
+        //substring(3, 4) === constants.OPTION_CALL_FLAG ? e : null));
     }
 
     getPutList(token, stock) {
         return this.getOptionList(token, stock).then((puts) =>
-            puts.filter((e) => e.simbolo.substring(3, 4) === constants.OPTION_PUT_FLAG ? e : null)
+            puts.filter((e) => RegExp('['+constants.OPTION_PUT_FLAG+']\\d*[-.]\\d*').test(e.simbolo) ? e : null)
         );
     }
 
-    getLastYearHistoricalData(token,stock) {
+    getLastYearHistoricalData(token, stock) {
         let dateTo = new Date();
         let dateFrom = new Date();
-        dateFrom.setFullYear(dateTo.getFullYear()-1);
+        dateFrom.setFullYear(dateTo.getFullYear() - 1);
         return this.getHistoricalData(token, stock, dateFrom.toISOString().split('T')[0], dateTo.toISOString().split('T')[0]);
     }
 
-    getLastMonthHistoricalData(token,stock) {
+    getLastMonthHistoricalData(token, stock) {
         let dateTo = new Date();
         let dateFrom = new Date();
-        dateFrom.setMonth(dateTo.getMonth()-1);
+        dateFrom.setMonth(dateTo.getMonth() - 1);
         return this.getHistoricalData(token, stock, dateFrom.toISOString().split('T')[0], dateTo.toISOString().split('T')[0]);
     }
 
-    getXLastsMonthsHistoricalData(token,stock, months) {
+    getXLastsMonthsHistoricalData(token, stock, months) {
         let dateTo = new Date();
         let dateFrom = new Date();
-        dateFrom.setMonth(dateTo.getMonth()-months);
+        dateFrom.setMonth(dateTo.getMonth() - months);
         return this.getHistoricalData(token, stock, dateFrom.toISOString().split('T')[0], dateTo.toISOString().split('T')[0]);
     }
 
