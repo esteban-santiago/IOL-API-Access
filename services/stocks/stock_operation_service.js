@@ -45,7 +45,7 @@ export default class StockOperationService {
             cantidad: quantity,
             precio: price,
             plazo: stock.getBasicProperty('plazo'),
-            validez: validity.toISOString() //'2020-05-11' //dateObj.toISOString()
+            validez: validity.toISOString() //'2020-05-11'
         };
         return axios.post(constants.IOL_API_OPERATION_BUY,
             body,

@@ -5,7 +5,7 @@ class NumberHelper {
 
     }
 
-    static getStrikeFromName(name) {
+    static getFloatFromString(name) {
         return parseFloat(name.substring(4));
     }
 

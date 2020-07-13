@@ -75,11 +75,12 @@ export default class StockDataService {
                 (stock) => stock.data
             )
             .catch(error => {
+                console.log(error);
                 throw new StockServiceException(
                     'StockService.getPriceData() error.',
-                    error.response.statusText,
-                    error.response.status,
-                    error.response.config.url);
+                    error.response)
+                    //error.response.status,
+                    //error.response.config.url);
             });
     };
 
@@ -102,15 +103,16 @@ export default class StockDataService {
     };
 
     getCallList(token, stock) {
-        return this.getOptionList(token, stock).then((calls) =>
-            calls.filter((e) => RegExp('['+constants.OPTION_CALL_FLAG+']\\d*[-.]\\d*').test(e.simbolo) ? e : null)
-        );
-        //substring(3, 4) === constants.OPTION_CALL_FLAG ? e : null));
+        return this._getOptionsListByType(token, stock, constants.OPTION_CALL_FLAG);
     }
 
     getPutList(token, stock) {
-        return this.getOptionList(token, stock).then((puts) =>
-            puts.filter((e) => RegExp('['+constants.OPTION_PUT_FLAG+']\\d*[-.]\\d*').test(e.simbolo) ? e : null)
+        return this._getOptionsListByType(token, stock, constants.OPTION_PUT_FLAG);
+    }
+
+    _getOptionsListByType(token, stock, type) {
+        return this.getOptionList(token, stock).then(
+            (options) => options.filter((e) => RegExp('[' + type + ']\\d*[-.]\\d*').test(e.simbolo) ? e : null)
         );
     }
 
@@ -140,22 +142,20 @@ export default class StockDataService {
             StringHelper.replaceInUrl(constants.IOL_API_STOCK_HISTORY_GET,
                 stock.getBasicProperty('mercado'),
                 stock.getBasicProperty('simbolo'),
-                dateFrom, //'2019-05-01',//fechaDesde,
-                dateTo,//'2020-05-30',//fechaHasta,
-                ajusted),//ajustada),
+                dateFrom,
+                dateTo,
+                ajusted),
             { 'headers': this._getHeaders(token.getAccess()) })
             .then(
                 (history) => history.data
             )
             .catch(error => {
                 console.log(error);
-                /*
                 throw new StockServiceException(
                     'StockDataService.getHistoricalData() error.',
                     error.response.statusText,
                     error.response.status,
                     error.response.config.url);
-                    */
             });
 
     }

@@ -13,29 +13,35 @@ class OptionsToExecute extends Analysis {
         this.stockDataService = new StockService().getDataService();
     }
 
-    execute(token, stock) {
+    async execute(token, stock) {
         console.log(`Analysis launched for ${stock.getBasicProperty('simbolo')} at ${new Date()}`);
         return this.stockDataService.getPriceData(token, stock)
-                .then((stockPrice) => {
-                    //console.log(`At ${Date()}\nFor ${stock.getBasicProperty('simbolo')} => $ ${stockPrice.ultimoPrecio}`);
-                    this.stockDataService.getCallList(token, stock)
-                        .then(options => options.map((option) => {
-                            this.stockDataService.getPriceBox(token, new Stock(option))
-                                .then(
-                                    optionPrice => {
-                                        if ((optionPrice.puntas.length > 0 && optionPrice.puntas[0].precioVenta > 0)
-                                            && (stockPrice.ultimoPrecio > (NumberHelper.getStrikeFromName(option.simbolo) + optionPrice.puntas[0].precioVenta))) {
-                                                let delta = 1 - ((NumberHelper.getStrikeFromName(option.simbolo) + optionPrice.puntas[0].precioVenta) / stockPrice.ultimoPrecio);
-                                                console.log(`For ${stock.getBasicProperty('simbolo')} at $ ${stockPrice.ultimoPrecio}\nFound: ${option.simbolo} with Strike: ${NumberHelper.getStrikeFromName(option.simbolo)} at $ ${optionPrice.puntas[0].precioVenta} => Delta: ${(delta * 100).toFixed(3)} %`);
-                                        }
-                                    }
-                                );
-                        }
-                        ))
-                }
-                );
+            .then((stockPrice) => 
+                this.stockDataService.getCallList(token, stock)
+                    .then(options => options.map((option) => {
+                        this.stockDataService.getPriceBox(token, new Stock(option))
+                            .then(
+                                optionPrice => optionPrice.puntas.length > 0 && 
+                                    this.businessRule(stock, option, optionPrice, stockPrice)
+                            );
+                    }
+                    ))    
+            );
+        console.table(optionsToExecute);
+        return optionsToExecute;
         //console.log(options.filter( option => option.cotizacion.puntas !== null ));
     }
+
+    businessRule(stock, option, optionPrice, stockPrice) {
+        if ( optionPrice.puntas[0].precioVenta > 0 && (stockPrice.ultimoPrecio > (NumberHelper.getFloatFromString(option.simbolo) + optionPrice.puntas[0].precioVenta))) {
+            let delta = 1 - ((NumberHelper.getFloatFromString(option.simbolo) + optionPrice.puntas[0].precioVenta) / stockPrice.ultimoPrecio);
+            console.log(`For ${stock.getBasicProperty('simbolo')} at $ ${stockPrice.ultimoPrecio}\nFound: ${option.simbolo} with Strike: ${NumberHelper.getFloatFromString(option.simbolo)} at $ ${optionPrice.puntas[0].precioVenta} => Delta: ${(delta * 100).toFixed(3)} %`);
+            }
+    }
+
+    businessAction(stock, option, optionPrice, stockPrice) {
+    }
+
 }
 
 export default OptionsToExecute;
